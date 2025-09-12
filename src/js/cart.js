@@ -31,7 +31,7 @@ function cartItemTemplate(item) {
 }
 function removeFromCart(id) {
   let cartItems = getLocalStorage("so-cart") || [];
-  cartItems = cartItems.filter(item => item.Id !== id);
+  cartItems = cartItems.filter((item) => item.Id !== id);
   setLocalStorage("so-cart", cartItems);
   renderCartContents();
 }
