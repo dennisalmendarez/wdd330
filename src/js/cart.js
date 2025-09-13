@@ -2,6 +2,18 @@ import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
+
+  const cartFooter = document.querySelector(".cart-footer");
+  const cartTotalElement = document.querySelector(".cart-total");
+
+  if (cartItems.length > 0) {
+    cartFooter.classList.remove("hide");
+    const total = cartItems.reduce((acc, item) => acc + item.FinalPrice, 0);
+    cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
+  } else {
+    cartFooter.classList.add("hide");
+  }
+
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 
@@ -12,6 +24,7 @@ function renderCartContents() {
     });
   });
 }
+
 function cartItemTemplate(item) {
   return `<li class="cart-card divider" 
     style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 180px; margin: 0 auto;">
