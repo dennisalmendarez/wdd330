@@ -8,7 +8,6 @@ function renderCartContents() {
     document.querySelector(".product-list").textContent = "Your cart is empty. Please add items before checking out."
     return;
   }
-
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 
