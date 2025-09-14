@@ -1,7 +1,14 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
-  const cartItems = getLocalStorage("so-cart") || [];
+  const cartItems = getLocalStorage("so-cart") || []; 
+
+  // display error message to the user
+  if (cartItems.length === 0) {
+    document.querySelector(".product-list").textContent = "Your cart is empty. Please add items before checking out."
+    return;
+  }
+
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   document.querySelector(".product-list").innerHTML = htmlItems.join("");
 
