@@ -39,6 +39,7 @@ export function renderListWithTemplate(template, parentElement, list, position =
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
+  if (!parentElement) return; // Prevent error if element is missing
   parentElement.innerHTML = template(data);
   if (callback) {
     callback(data);
