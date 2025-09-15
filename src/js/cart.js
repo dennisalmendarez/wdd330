@@ -1,7 +1,12 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "../js/utils.mjs";
+import ShoppingCart from "./ShoppingCart.mjs";
 
-function renderCartContents() {
-  const cartItems = getLocalStorage("so-cart") || [];
+
+loadHeaderFooter();
+const cart = new ShoppingCart(document.querySelector(".product-list"));
+cart.init();
+
 
   const cartFooter = document.querySelector(".cart-footer");
   const cartTotalElement = document.querySelector(".cart-total");
@@ -23,7 +28,7 @@ function renderCartContents() {
       removeFromCart(btn.dataset.id);
     });
   });
-}
+
 
 function cartItemTemplate(item) {
   return `<li class="cart-card divider" 
