@@ -1,5 +1,6 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
+
 function cartItemTemplate(item) {
   return `<li class="cart-card divider" 
     style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 180px; margin: 0 auto;">
