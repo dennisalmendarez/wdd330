@@ -1,4 +1,3 @@
-
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
@@ -36,4 +35,28 @@ export function renderListWithTemplate(template, parentElement, list, position =
     parentElement.innerHTML = "";
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = template(data);
+  if (callback) {
+    callback();
+  }
+}
+
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`Failed to load template: ${path}`);
+  return await response.text();
+}
+
+export async function loadHeaderFooter() {
+  const headerHTML = await loadTemplate("/partials/header.html");
+  const footerHTML = await loadTemplate("/partials/footer.html");
+
+  const headerElement = document.getElementById("header-placeholder");
+  const footerElement = document.getElementById("footer-placeholder");
+
+  renderWithTemplate(() => headerHTML, headerElement);
+  renderWithTemplate(() => footerHTML, footerElement);
 }
