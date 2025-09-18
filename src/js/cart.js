@@ -17,7 +17,11 @@ function renderCartContents() {
   if (cartItems.length > 0) {
     cartFooter.classList.remove("hide");
 
-    const total = cartItems.reduce((acc, item) => acc + item.FinalPrice, 0);
+    // ✅ Calculate total based on quantity
+    const total = cartItems.reduce(
+      (acc, item) => acc + item.FinalPrice * (item.quantity || 1),
+      0
+    );
     cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
 
     productList.innerHTML = cartItems.map(cartItemTemplate).join("");
@@ -41,19 +45,30 @@ function cartItemTemplate(item) {
     <p class="cart-card__color" 
       style="margin: 0 0 0.5rem 0; text-align: center;">${item.Colors[0].ColorName}</p>
     <p class="cart-card__quantity" 
-      style="margin: 0 0 0.5rem 0; text-align: center;">qty: 1</p>
+      style="margin: 0 0 0.5rem 0; text-align: center;">qty: ${item.quantity || 1}</p>
     <p class="cart-card__price" 
-      style="margin: 0; text-align: center;">$${item.FinalPrice}</p>
+      style="margin: 0; text-align: center;">$${(item.FinalPrice * (item.quantity || 1)).toFixed(2)}</p>
   </li>`;
 }
 
 function removeFromCart(id) {
   let cartItems = getLocalStorage("so-cart") || [];
-  cartItems = cartItems.filter((item) => item.Id !== id);
+
+  // ✅ Reduce quantity instead of full removal (optional)
+  const index = cartItems.findIndex((item) => item.Id === id);
+  if (index !== -1) {
+    if (cartItems[index].quantity && cartItems[index].quantity > 1) {
+      cartItems[index].quantity -= 1;
+    } else {
+      cartItems = cartItems.filter((item) => item.Id !== id);
+    }
+  }
+
   setLocalStorage("so-cart", cartItems);
   renderCartContents();
 }
-// added for removing items from cart cleanly.
+
+// Attach remove button handler
 document.querySelector(".product-list").addEventListener("click", (e) => {
   if (e.target.classList.contains("cart-card__remove")) {
     removeFromCart(e.target.dataset.id);
