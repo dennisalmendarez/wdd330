@@ -1,7 +1,9 @@
+// wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-
+// or a more concise version if you are into that sort of thing:
+// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -30,7 +32,7 @@ export function getParam(param) {
 
 export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
   const htmlStrings = list.map(template);
-
+  // if clear is true we need to clear out the contents of the parent.
   if (clear) {
     parentElement.innerHTML = "";
   }
@@ -38,25 +40,25 @@ export function renderListWithTemplate(template, parentElement, list, position =
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
-  parentElement.innerHTML = template(data);
+  parentElement.innerHTML = template;
   if (callback) {
-    callback();
+    callback(data);
   }
 }
 
-export async function loadTemplate(path) {
-  const response = await fetch(path);
-  if (!response.ok) throw new Error(`Failed to load template: ${path}`);
-  return await response.text();
+async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
 }
 
 export async function loadHeaderFooter() {
-  const headerHTML = await loadTemplate("/partials/header.html");
-  const footerHTML = await loadTemplate("/partials/footer.html");
+ const headerTemplate = await loadTemplate("../partials/header.html");
+  const footerTemplate = await loadTemplate("../partials/footer.html");
 
-  const headerElement = document.getElementById("header-placeholder");
-  const footerElement = document.getElementById("footer-placeholder");
+  const headerElement = document.querySelector("#main-header");
+  const footerElement = document.querySelector("#main-footer");
 
-  renderWithTemplate(() => headerHTML, headerElement);
-  renderWithTemplate(() => footerHTML, footerElement);
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
 }
