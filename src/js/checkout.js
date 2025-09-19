@@ -1,5 +1,4 @@
 import { loadHeaderFooter } from "./utils.mjs";
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadHeaderFooter();
-});
+// Load header and footer on page load
+loadHeaderFooter();
