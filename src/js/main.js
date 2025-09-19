@@ -9,4 +9,8 @@ const element = document.querySelector(".product-list");
 
 const productList = new ProductList("Tents", dataSource, element);
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadHeaderFooter();
+});
+
 productList.init();

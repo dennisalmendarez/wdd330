@@ -118,6 +118,7 @@ button {
 
 /* Cart icon styles */
 .cart {
+  display: flex;
   padding-top: 1em;
   position: relative;
   text-align: center;
@@ -260,4 +261,17 @@ button {
 footer {
   font-size: var(--small-font);
   padding: 1em;
+}
+
+.items-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  margin: -10px 0 0 -10px;
+  font-size: small;
+  color: #fff;
+  background-color: red;
 }
