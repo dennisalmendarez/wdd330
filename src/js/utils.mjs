@@ -1,27 +1,15 @@
-// Function to find an element in the DOM
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
 
-// Retrieve data from localstorage
 export function getLocalStorage(key) {
   return JSON.parse(localStorage.getItem(key));
 }
-// Save data to local storage
+
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Set a listener for both touchend and click
-export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
-    event.preventDefault();
-    callback();
-  });
-  qs(selector).addEventListener("click", callback);
-}
-
-// Get the product id from the query string
 export function getParam(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -30,46 +18,71 @@ export function getParam(param) {
 
 export function renderListWithTemplate(template, parentElement, list, position = "afterbegin", clear = false) {
   const htmlStrings = list.map(template);
-
   if (clear) {
     parentElement.innerHTML = "";
   }
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
 }
 
+/**
+ * Renders a template into a parent element.
+ * @param {string} template The HTML string template.
+ * @param {HTMLElement} parentElement The element to render the template into.
+ * @param {*} [data] Optional data to pass to the callback.
+ * @param {Function} [callback] Optional callback function to run after rendering.
+ */
 export function renderWithTemplate(template, parentElement, data, callback) {
-    if (parentElement) {
-        parentElement.innerHTML = template;
-        if (callback) {
-            callback(data);
-        }
-    }
+  parentElement.innerHTML = template;
+  if (callback) {
+    callback(data);
+  }
 }
 
+/**
+ * Loads an HTML template from a specified path.
+ * @param {string} path The path to the HTML template file.
+ * @returns {Promise<string>} A promise that resolves with the template string.
+ */
 export async function loadTemplate(path) {
-  const response = await fetch(path);
-  if (!response.ok) throw new Error(`Failed to load template: ${path}`);
-  return await response.text();
+  const res = await fetch(path);
+  if (!res.ok) {
+    throw new Error(`Failed to load template: ${path}`);
+  }
+  const template = await res.text();
+  return template;
 }
 
 export function updateCartCount() {
-    const cartItems = getLocalStorage("so-cart") || [];
-    const count = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
-    const countElement = document.querySelector(".items-count");
-    if (countElement) {
-        countElement.textContent = count;
+  const cartItems = getLocalStorage("so-cart") || [];
+  // Sum the quantity of all items in the cart
+  const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  
+  const countElement = document.querySelector(".items-count");
+  if (countElement) {
+    // If there are items, show the count. If not, hide the circle.
+    if (count > 0) {
+      countElement.style.display = "flex";
+      countElement.textContent = count;
+    } else {
+      countElement.style.display = "none";
     }
+  }
 }
 
+
+/**
+ * Loads and renders the header and footer templates into the page.
+ */
 export async function loadHeaderFooter() {
   const headerTemplate = await loadTemplate("/partials/header.html");
   const footerTemplate = await loadTemplate("/partials/footer.html");
 
-  const headerElement = document.querySelector("header");
-  const footerElement = document.querySelector("footer");
+  const headerElement = document.querySelector("#main-header");
+  const footerElement = document.querySelector("#main-footer");
 
-  renderWithTemplate(headerTemplate, headerElement);
-  renderWithTemplate(footerTemplate, footerElement);
-  
-  updateCartCount();
+  if (headerElement && footerElement) {
+    renderWithTemplate(headerTemplate, headerElement);
+    renderWithTemplate(footerTemplate, footerElement);
+  }
+  updateCartCount(); // Update cart count after loading header
 }
