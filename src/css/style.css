@@ -334,3 +334,7 @@ footer {
   color: #fff;
   background-color: red;
 }
+
+.cat-name {
+  text-align: center;
+}
