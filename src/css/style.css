@@ -253,6 +253,10 @@ button {
   font-size: 1.1em;
 }
 
+#title_cap {
+  text-transform: capitalize;
+}
+
 .quantity-btn {
   width: 30px;
   height: 32px;
