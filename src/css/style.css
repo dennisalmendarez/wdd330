@@ -212,7 +212,6 @@ button {
   /* max-height: 120px; */
   align-items: center;
 }
-
 .cart-card__name-link {
   grid-row: 1;
   grid-column: 2;
