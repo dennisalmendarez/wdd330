@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, updateCartCount } from "./utils.mjs";
+import { addProductToCart  } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -10,29 +10,10 @@ export default class ProductDetails {
   async init() {
     this.product = await this.dataSource.findProductById(this.productId);
     this.renderProductDetails();
+
     document
       .getElementById("add-to-cart")
-      .addEventListener("click", this.addProductToCart.bind(this));
-  }
-
-  addProductToCart() {
-    const cartItems = getLocalStorage("so-cart") || [];
-    
-    // Find if the item already exists in the cart
-    const existingItem = cartItems.find((item) => item.Id === this.product.Id);
-
-    if (existingItem) {
-      // If it exists, just increment its quantity
-      existingItem.quantity += 1;
-    } else {
-      // If it's a new item, add it to the cart with a quantity of 1
-      const newItem = { ...this.product, quantity: 1 };
-      cartItems.push(newItem);
-    }
-    
-    setLocalStorage("so-cart", cartItems);
-  
-    updateCartCount(); // Update cart count in header
+      .addEventListener("click", () => addProductToCart(this.product));
   }
 
   renderProductDetails() {

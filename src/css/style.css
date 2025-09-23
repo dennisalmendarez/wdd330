@@ -301,6 +301,100 @@ button {
   grid-column: 3;
 }
 
+
+
+/* Quick View Modal overlay */
+.quick-view-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Show modal */
+.quick-view-modal.open {
+  display: flex;
+}
+
+/* Modal inner box */
+.quick-view-inner {
+  background: #fff;
+  border-radius: 1rem;
+  max-width: 500px;
+  width: 90%;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: scaleUp 0.2s ease-in-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Close button */
+.quick-view-inner .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: -3rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.quick-view-inner .close-btn:hover {
+  transform: scale(1.1);
+  color: #d33;
+}
+
+/* Card inside modal */
+.quick-view-card {
+  text-align: center;
+}
+.quick-view-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+.quick-view-card h3 {
+  margin: 0.5rem 0;
+}
+.quick-view-card p {
+  margin: 0.25rem 0;
+}
+
+/* Add to cart button */
+#quickViewAddToCart {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease-in-out;
+}
+#quickViewAddToCart:hover {
+  background: #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleUp {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
+}
+
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
