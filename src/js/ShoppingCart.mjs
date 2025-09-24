@@ -94,7 +94,6 @@ export default class ShoppingCart {
     if (item) {
       item.quantity += change;
       if (item.quantity < 1) {
-        // If quantity drops below 1, remove the item
         this.removeFromCart(id);
         return;
       }

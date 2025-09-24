@@ -204,30 +204,12 @@ button {
   width: 100%;
 }
 
-/* Start cart list card styles */
-.cart-card {
-  display: grid;
-  grid-template-columns: 25% auto 15%;
-  font-size: var(--small-font);
-  /* max-height: 120px; */
-  align-items: center;
-}
 
 .cart-card__name-link {
   grid-row: 1;
   grid-column: 2;
   text-decoration: none; /* Removes the underline from the link */
   color: inherit; /* Makes the link text use the default color */
-}
-
-/* Find the .cart-card rule and update its grid-template-columns */
-.cart-card {
-  display: grid;
-  /* Change this line to have 4 columns */
-  grid-template-columns: 25% auto 15% 10%;
-  font-size: var(--small-font);
-  align-items: center;
-  padding: 0.5rem 0; /* Optional: adds nice spacing */
 }
 
 /* In your style.css file, FIND and UPDATE this rule */
@@ -303,6 +285,95 @@ button {
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
+}
+
+/* modal */
+
+/* Quick View Modal overlay */
+.quick-view-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none; /* This is what hides it by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Show modal */
+.quick-view-modal.open {
+  display: flex; /* This rule makes it visible when JS adds the .open class */
+}
+
+/* Modal inner box */
+.quick-view-inner {
+  background: #fff;
+  border-radius: 1rem;
+  max-width: 500px;
+  width: 90%;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  animation: scaleUp 0.2s ease-in-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Close button */
+.quick-view-inner .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: -3rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.quick-view-inner .close-btn:hover {
+  transform: scale(1.1);
+  color: #d33;
+}
+
+/* Card inside modal */
+.quick-view-card {
+  text-align: center;
+}
+
+.quick-view-card img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Add to cart button */
+#quickViewAddToCart {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease-in-out;
+}
+
+#quickViewAddToCart:hover {
+  background: #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleUp {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
 }
 
 @media screen and (min-width: 500px) {
