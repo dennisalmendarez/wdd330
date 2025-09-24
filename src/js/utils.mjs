@@ -86,3 +86,22 @@ export async function loadHeaderFooter() {
   }
   updateCartCount(); // Update cart count after loading header
 }
+
+export function addProductToCart(product) {
+  const cartItems = getLocalStorage("so-cart") || [];
+
+  // Find if the item already exists in the cart
+  const existingItem = cartItems.find((item) => item.Id === product.Id);
+
+  if (existingItem) {
+    // If it exists, just increment its quantity
+    existingItem.quantity += 1;
+  } else {
+    // If it's a new item, add it to the cart with a quantity of 1
+    const newItem = { ...product, quantity: 1 };
+    cartItems.push(newItem);
+  }
+
+  setLocalStorage("so-cart", cartItems);
+  updateCartCount(); // Update cart count in header
+}
