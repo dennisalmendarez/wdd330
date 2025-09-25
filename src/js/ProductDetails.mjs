@@ -46,3 +46,45 @@ function productDetailsTemplate(product) {
   document.querySelector("#add-to-cart").dataset.id = product.Id;
 }
 
+
+function getProductId() {
+  // Adjust this to get the product ID from your URL or page context
+  const params = new URLSearchParams(window.location.search);
+  return params.get('product');
+}
+
+function getComments(productId) {
+  return JSON.parse(localStorage.getItem(`comments_${productId}`)) || [];
+}
+
+function saveComment(productId, comment) {
+  const comments = getComments(productId);
+  comments.push({ text: comment, date: new Date().toISOString() });
+  localStorage.setItem(`comments_${productId}`, JSON.stringify(comments));
+}
+
+function renderComments(productId) {
+  const commentsList = document.getElementById('comments-list');
+  commentsList.innerHTML = '';
+  const comments = getComments(productId);
+  comments.forEach(c => {
+    const li = document.createElement('li');
+    li.textContent = `${c.text} (${new Date(c.date).toLocaleString()})`;
+    commentsList.appendChild(li);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const productId = getProductId();
+  renderComments(productId);
+
+  document.getElementById('comment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const commentInput = document.getElementById('comment-input');
+    if (commentInput.value.trim()) {
+      saveComment(productId, commentInput.value.trim());
+      commentInput.value = '';
+      renderComments(productId);
+    }
+  });
+});
