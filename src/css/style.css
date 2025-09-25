@@ -421,3 +421,24 @@ button[type="submit"]:hover {
 .order__summary div {
   padding: 0.25rem 0;
 }
+
+.alert {
+  background: #ffe0e0;
+  color: #a00;
+  border: 1px solid #a00;
+  padding: 1em;
+  margin-bottom: 1em;
+  position: relative;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close-alert {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #a00;
+  cursor: pointer;
+  margin-left: 1em;
+}

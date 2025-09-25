@@ -1,5 +1,6 @@
 import { getLocalStorage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
+import { alertMessage } from "./utils.mjs";
 
 const services = new ExternalServices();
 
@@ -77,22 +78,31 @@ export default class CheckoutProcess {
     orderTotal.innerText = `$${this.orderTotal.toFixed(2)}`;
   }
 
-  async checkout() {
-    const formElement = document.forms["checkout"];
-    const order = formDataToJSON(formElement);
+ async checkout() {
+  const formElement = document.forms["checkout"];
+  const order = formDataToJSON(formElement);
 
-    order.orderDate = new Date().toISOString();
-    order.orderTotal = parseFloat(this.orderTotal);
-    order.tax = parseFloat(this.tax.toFixed(2));
-    order.shipping = parseFloat(this.shipping);
-    order.items = packageItems(this.list);
-    //console.log(order);
+  order.orderDate = new Date().toISOString();
+  order.orderTotal = parseFloat(this.orderTotal);
+  order.tax = parseFloat(this.tax.toFixed(2));
+  order.shipping = parseFloat(this.shipping);
+  order.items = packageItems(this.list);
 
     try {
-      const response = await services.checkout(order);
-      console.log(response);
-    } catch (err) {
-      console.log(err);
+    const response = await services.checkout(order);
+    localStorage.removeItem(this.key);
+    window.location.href = "/checkout/success.html";
+  } catch (err) {
+    
+    let msg = "An error occurred. Please try again.";
+    if (err && err.message) {
+      if (typeof err.message === "string") {
+        msg = err.message;
+      } else if (err.message.message) {
+        msg = err.message.message;
+      }
     }
+    alertMessage(msg);
   }
+}
 }
