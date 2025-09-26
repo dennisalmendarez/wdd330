@@ -1,24 +1,89 @@
 <!doctype html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Sleep Outside | Checkout</title>
-
-    <link rel="stylesheet" href="css/style.css" />
-
+    <link rel="stylesheet" href="../css/style.css" />
     <script src="../js/checkout.js" type="module"></script>
   </head>
 
   <body>
     <header class="divider" id="main-header"></header>
 
-    <main class="divider">
-      <section class="products">
+    <main class="divider checkout-main">
+      <section class="checkout-form">
         <h2>Review & Place your Order</h2>
+        <form name="checkout" id="checkout-form">
+          <fieldset class="customer-info">
+            <legend>Customer Name</legend>
+            <label for="fname">First Name</label>
+            <input name="fname" id="fname" required />
+            <label for="lname">Last Name</label>
+            <input name="lname" id="lname" required />
+          </fieldset>
+
+          <fieldset class="address-info">
+            <legend>Address</legend>
+            <p>Billing and shipping address</p>
+            <label for="street">Street Address</label>
+            <input name="street" id="street" required />
+            <label for="city">City</label>
+            <input name="city" id="city" required />
+            <label for="state">State</label>
+            <input name="state" id="state" required />
+            <label for="zip">Zip Code</label>
+            <input
+              name="zip"
+              id="zip"
+              required
+              pattern="\d{5}"
+              title="Five digit zip code"
+            />
+          </fieldset>
+
+          <fieldset class="payment-info">
+            <legend>Payment</legend>
+            <label for="cardNumber">Credit Card Number</label>
+            <input
+              name="cardNumber"
+              id="cardNumber"
+              required
+              pattern="\d{16}"
+              title="16-digit card number without spaces or dashes"
+            />
+            <label for="expiration">Expiration Date (MM/YY)</label>
+            <input
+              type="text"
+              name="expiration"
+              id="expiration"
+              required
+              placeholder="MM/YY"
+              pattern="(0[1-9]|1[0-2])\/\d{2}"
+              title="Please enter a valid expiration date in MM/YY format"
+            />
+            <label for="code">Security Code</label>
+            <input
+              name="code"
+              id="code"
+              required
+              pattern="\d{3}"
+              title="Three digit security code"
+            />
+          </fieldset>
+
+          <button type="submit" class="checkout-button">Checkout</button>
+        </form>
+      </section>
+
+      <section class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="summary-details">
+          <p>Subtotal: <span id="subtotal">$0.00</span></p>
+          <p>Tax: <span id="tax">$0.00</span></p>
+          <p>Shipping Estimate: <span id="shipping">$0.00</span></p>
+          <h3>Order Total: <span id="orderTotal">$0.00</span></h3>
+        </div>
       </section>
     </main>
 
