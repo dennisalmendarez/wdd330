@@ -366,6 +366,149 @@ button {
   background: #0056b3;
 }
 
+.checkout-btn {
+  width: 100%;
+  
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Checkout Page Styles */
+.checkout-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .checkout-main {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.checkout-form h2, .order-summary h2 {
+    border-bottom: 1px solid var(--dark-grey);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.checkout-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-form fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.checkout-form legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-form label {
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Style for invalid inputs to give user feedback */
+.checkout-form input:invalid {
+  border-color: #d33;
+}
+
+
+.checkout-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.checkout-button:hover {
+  background-color: var(--tertiary-color);
+}
+
+.order-summary {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  height: fit-content; /* Make it stick to the content height */
+}
+
+.summary-details p {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.summary-details h3 {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--light-grey);
+  font-size: 1.3rem;
+}
+
+/* Success Page */
+.success-message {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.success-message h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.success-message p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.success-message a {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: var(--dark-grey);
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.success-message a:hover {
+    background-color: var(--tertiary-color);
+    color: white;
+}
+
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
