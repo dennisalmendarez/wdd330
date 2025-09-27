@@ -9,26 +9,49 @@
   </head>
 
   <body>
-    <header class="divider" id="main-header"></header>
+    <!-- Header -->
+    <header class="divider" id="main-header">
+      <nav class="main-nav">
+        <a href="/index.html" class="logo logo--inline">
+          <img src="/images/noun_Tent_2517.svg" alt="tent logo" />
+          <span>Sleep<span class="highlight">Outside</span></span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/product_listing/index.html?category=tents">Tents</a></li>
+          <li><a href="/product_listing/index.html?category=backpacks">Backpacks</a></li>
+          <li><a href="/product_listing/index.html?category=sleeping-bags">Sleeping Bags</a></li>
+          <li><a href="/product_listing/index.html?category=hammocks">Hammocks</a></li>
+          <li><a href="/login/index.html" class="btn-login">Login</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Main -->
     <main class="divider">
+      <!-- Hero Section -->
       <div class="hero">
-        <img
-          src="/images/banner-sm.jpg"
-          srcset="images/banner-sm.jpg 500w, images/banner.jpg"
-          alt="image of a high mountain lake"
-        />
-        <div class="logo logo--square">
-          <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
-          <div>Sleep<span class="highlight">Outside</span></div>
-        </div>
-        <div class="mission">
-          <p>
-            Our mission is to provide you with everything you need to sleep
-            outside comfortably at an affordable price.
-          </p>
+        <picture>
+          <source srcset="/images/banner.jpg" media="(min-width: 600px)" />
+          <img
+            src="/images/banner-sm.jpg"
+            alt="image of a high mountain lake"
+          />
+        </picture>
+        <div class="hero-content">
+          <div class="logo logo--square">
+            <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
+            <div>Sleep<span class="highlight">Outside</span></div>
+          </div>
+          <div class="mission">
+            <p>
+              Our mission is to provide you with everything you need to sleep
+              outside comfortably at an affordable price.
+            </p>
+          </div>
         </div>
       </div>
 
+      <!-- Category Products -->
       <section class="products">
         <ul class="product-grid">
           <li>
@@ -57,7 +80,32 @@
           </li>
         </ul>
       </section>
+
+      <!-- Newsletter Sign Up -->
+      <section class="newsletter">
+        <h2>Stay in the loop!</h2>
+        <p>Sign up for our newsletter to get the latest outdoor gear updates and exclusive deals.</p>
+        <form id="newsletterForm">
+          <input 
+            type="email" 
+            id="newsletterEmail" 
+            placeholder="Enter your email" 
+            required 
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+        <p id="newsletterMessage" class="message"></p>
+      </section>
     </main>
+
+    <!-- Footer -->
     <footer id="main-footer"></footer>
+
+    <!-- Page-specific JS -->
+    <script type="module">
+      import Newsletter from "./js/newsletter.js";
+      const newsletter = new Newsletter("#newsletterForm", "#newsletterMessage");
+      newsletter.init();
+    </script>
   </body>
 </html>
