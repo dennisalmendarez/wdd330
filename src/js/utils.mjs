@@ -1,3 +1,19 @@
+/**
+ * Returns a discount badge HTML if the product is discounted.
+ * @param {Object} product The product object.
+ * @returns {string} Discount badge HTML or empty string.
+ */
+
+// NEW: getDiscountBadge function
+export function getDiscountBadge(product) {
+  if (product.FinalPrice < product.SuggestedRetailPrice) {
+    const discountAmount = (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2);
+    const discountPercent = Math.round(100 * discountAmount / product.SuggestedRetailPrice);
+    return `<span class="discount-badge">Save $${discountAmount} (${discountPercent}% off)</span>`;
+  }
+  return "";
+}
+
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
@@ -89,19 +105,15 @@ export async function loadHeaderFooter() {
 
 export function addProductToCart(product) {
   const cartItems = getLocalStorage("so-cart") || [];
-
   // Find if the item already exists in the cart
   const existingItem = cartItems.find((item) => item.Id === product.Id);
-
   if (existingItem) {
-    // If it exists, just increment its quantity
     existingItem.quantity += 1;
   } else {
-    // If it's a new item, add it to the cart with a quantity of 1
-    const newItem = { ...product, quantity: 1 };
+    // Always use FinalPrice for cart totals
+    const newItem = { ...product, quantity: 1, Price: product.FinalPrice };
     cartItems.push(newItem);
   }
-
   setLocalStorage("so-cart", cartItems);
   updateCartCount(); // Update cart count in header
 }

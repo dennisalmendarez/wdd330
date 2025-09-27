@@ -1,4 +1,4 @@
-import { renderListWithTemplate, addProductToCart } from "./utils.mjs";
+import { renderListWithTemplate, addProductToCart, getDiscountBadge } from "./utils.mjs";
 
 function productCardTemplate(product) {
   return `
@@ -7,7 +7,7 @@ function productCardTemplate(product) {
         <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
         <h2>${product.Brand.Name}</h2>
         <h3>${product.Name}</h3>
-        <p class="product-card__price">$${product.FinalPrice}</p>
+        <p class="product-card__price"><span class="product_discount">$${product.FinalPrice}</span></p>
       </a>
       <button class="quick-view-btn" data-id="${product.Id}">Quick View</button>
     </li>
@@ -38,11 +38,18 @@ export default class ProductList {
       btn.addEventListener("click", () => {
         const product = list.find((p) => p.Id === btn.dataset.id);
 
+        // NEW: Added this block of code for the discountBadge in the product_listing landing page and the modal
+        const discountBadge = getDiscountBadge(product);
+        let priceHtml = `<p class="product-card__price">$${product.FinalPrice}</p>`;
+        if (discountBadge) {
+          priceHtml = `<p class="product-card__price"><span style='text-decoration:line-through;color:#888;'>$${product.SuggestedRetailPrice}</span> <span style='color:#d32f2f;font-weight:bold;'>$${product.FinalPrice}</span></p>`;
+        }
         modalCard.innerHTML = `
           <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
           <h3>${product.Brand.Name}</h3>
           <p>${product.NameWithoutBrand}</p>
-          <p class="product-card__price">$${product.FinalPrice}</p>
+          <p>${priceHtml}</p>
+          <p style="margin-top: -2em;">${discountBadge}</p>
           <p><strong>Color:</strong> ${product.Colors[0]?.ColorName}</p>
           <div class="quick-view-desc">
             ${product.DescriptionHtmlSimple}
@@ -74,5 +81,16 @@ export default class ProductList {
 
   renderList(list) {
     renderListWithTemplate(productCardTemplate, this.listElement, list);
+    // After rendering, append discount badge to placeholder if needed
+    list.forEach(product => {
+      const badgeHtml = getDiscountBadge(product);
+      if (badgeHtml) {
+        const card = this.listElement.querySelector(`[data-id='${product.Id}']`).closest('.product-card');
+        const discountPlaceholder = card.querySelector('.product_discount');
+        if (discountPlaceholder) {
+          discountPlaceholder.insertAdjacentHTML('afterend', badgeHtml);
+        }
+      }
+    });
   }
 }
