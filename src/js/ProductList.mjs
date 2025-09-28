@@ -1,13 +1,21 @@
 import { renderListWithTemplate, addProductToCart, getDiscountBadge } from "./utils.mjs";
 
 function productCardTemplate(product) {
+  // NEW: Updated price display logic directly in the template
+  const discountBadge = getDiscountBadge(product);
+  let priceHtml = `<p class="product-card__price">$${product.FinalPrice}</p>`;
+  if (discountBadge) {
+      priceHtml = `<p class="product-card__price"><span style='text-decoration:line-through;color:#888;'>$${product.SuggestedRetailPrice}</span> <span style='color:#d32f2f;font-weight:bold;'>$${product.FinalPrice}</span></p>`;
+  }
+  
   return `
     <li class="product-card">
       <a href="/product_pages/?product=${product.Id}">
         <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+        ${discountBadge} 
         <h2>${product.Brand.Name}</h2>
         <h3>${product.Name}</h3>
-        <p class="product-card__price"><span class="product_discount">$${product.FinalPrice}</span></p>
+        ${priceHtml}
       </a>
       <button class="quick-view-btn" data-id="${product.Id}">Quick View</button>
     </li>
@@ -38,28 +46,53 @@ export default class ProductList {
       btn.addEventListener("click", () => {
         const product = list.find((p) => p.Id === btn.dataset.id);
 
-        // NEW: Added this block of code for the discountBadge in the product_listing landing page and the modal
+        // --- DISCOUNT LOGIC (from your new file) ---
         const discountBadge = getDiscountBadge(product);
         let priceHtml = `<p class="product-card__price">$${product.FinalPrice}</p>`;
         if (discountBadge) {
           priceHtml = `<p class="product-card__price"><span style='text-decoration:line-through;color:#888;'>$${product.SuggestedRetailPrice}</span> <span style='color:#d32f2f;font-weight:bold;'>$${product.FinalPrice}</span></p>`;
         }
+        
+        // --- CAROUSEL LOGIC ---
+        const allImages = [
+          product.Images.PrimaryMedium,
+          ...(product.Images.ExtraImages?.map(img => img.Src) || [])
+        ];
+        let imageHtml = "";
+        if (allImages.length > 1) {
+          imageHtml = `
+            <div class="carousel">
+              <div class="carousel-main">
+                <img id="modal-carousel-img" src="${allImages[0]}" alt="${product.NameWithoutBrand}">
+                <button class="carousel-btn prev">&lt;</button>
+                <button class="carousel-btn next">&gt;</button>
+              </div>
+              <div class="carousel-thumbnails">
+                ${allImages.map((src, index) => 
+                  `<img src="${src}" alt="Thumbnail ${index + 1}" class="${index === 0 ? "active" : ""}" data-index="${index}">`
+                ).join("")}
+              </div>
+            </div>`;
+        } else {
+          imageHtml = `<img src="${allImages[0]}" alt="${product.NameWithoutBrand}">`;
+        }
+        
+        // --- COMBINE EVERYTHING INTO THE MODAL ---
         modalCard.innerHTML = `
-          <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+          ${imageHtml}
           <h3>${product.Brand.Name}</h3>
           <p>${product.NameWithoutBrand}</p>
-          <p>${priceHtml}</p>
-          <p style="margin-top: -2em;">${discountBadge}</p>
+          ${priceHtml}
+          ${discountBadge}
           <p><strong>Color:</strong> ${product.Colors[0]?.ColorName}</p>
-          <div class="quick-view-desc">
-            ${product.DescriptionHtmlSimple}
-          </div>
+          <div class="quick-view-desc">${product.DescriptionHtmlSimple}</div>
         `;
-
-        // Open modal
+        
         modal.classList.add("open");
 
-        // Handle Add To cart
+        // Set up carousel listeners for the modal IF it exists
+        this.setupModalCarousel(modal);
+
         document.getElementById("quickViewAddToCart").onclick = () => {
           addProductToCart(product);
           modal.classList.remove("open");
@@ -67,30 +100,47 @@ export default class ProductList {
       });
     });
 
-    closeBtn.addEventListener("click", () => {
-      modal.classList.remove("open");
+    closeBtn.addEventListener("click", () => modal.classList.remove("open"));
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("open");
+    });
+  }
+  
+  // This helper method is still needed
+  setupModalCarousel(modal) {
+    const mainImg = modal.querySelector("#modal-carousel-img");
+    const thumbnails = modal.querySelectorAll(".carousel-thumbnails img");
+    const prevBtn = modal.querySelector(".carousel-btn.prev");
+    const nextBtn = modal.querySelector(".carousel-btn.next");
+
+    if (!mainImg) return; 
+
+    let currentIndex = 0;
+    const totalImages = thumbnails.length;
+
+    function updateCarousel(index) {
+      mainImg.src = thumbnails[index].src;
+      thumbnails.forEach(thumb => thumb.classList.remove("active"));
+      thumbnails[index].classList.add("active");
+      currentIndex = index;
+    }
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener("click", () => updateCarousel(parseInt(thumb.dataset.index)));
     });
 
-    // Close modal on overlay click
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("open");
-      }
+    prevBtn.addEventListener("click", () => {
+      const newIndex = (currentIndex - 1 + totalImages) % totalImages;
+      updateCarousel(newIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      const newIndex = (currentIndex + 1) % totalImages;
+      updateCarousel(newIndex);
     });
   }
 
   renderList(list) {
     renderListWithTemplate(productCardTemplate, this.listElement, list);
-    // After rendering, append discount badge to placeholder if needed
-    list.forEach(product => {
-      const badgeHtml = getDiscountBadge(product);
-      if (badgeHtml) {
-        const card = this.listElement.querySelector(`[data-id='${product.Id}']`).closest('.product-card');
-        const discountPlaceholder = card.querySelector('.product_discount');
-        if (discountPlaceholder) {
-          discountPlaceholder.insertAdjacentHTML('afterend', badgeHtml);
-        }
-      }
-    });
   }
 }
