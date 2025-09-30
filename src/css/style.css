@@ -631,3 +631,31 @@ footer {
   color: #fff;
   background-color: red;
 }
+
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+#sorter {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.sort {
+  background-color: white;
+  color: #303030;
+  font-size: medium;
+  margin: 0;
+  padding: 0.2em;
+}
+
+#sort-options {
+  display: none;
+}
+
+#sort-options.show {
+  display: block;
+}
