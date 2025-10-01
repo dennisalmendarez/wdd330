@@ -12,9 +12,15 @@ async function convertToJson(res) {
 export default class ExternalServices {
   constructor() {
   }
-  async getData(category) {
+  async getData(category, filTerm=null) {
     const response = await fetch(baseURL + `products/search/${category}`);
     const data = await convertToJson(response);
+    if (filTerm == 'price') {
+      data.Result.sort((a,b) => a.FinalPrice - b.FinalPrice);
+    }
+    if (filTerm == 'name') {
+      data.Result.sort((a,b) => a.Name.localeCompare(b.Name));
+    }
     return data.Result;
   }
   async findProductById(id) {

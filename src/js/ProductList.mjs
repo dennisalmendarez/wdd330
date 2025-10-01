@@ -23,14 +23,15 @@ function productCardTemplate(product) {
 }
 
 export default class ProductList {
-  constructor(category, dataSource, listElement) {
+  constructor(category, dataSource, listElement, filTerm=null) {
     this.category = category;
     this.dataSource = dataSource;
     this.listElement = listElement;
+    this.filTerm = filTerm;
   }
 
   async init() {
-    const list = await this.dataSource.getData(this.category);
+    const list = await this.dataSource.getData(this.category, this.filTerm);
     this.renderList(list);
     document.querySelector(".title").textContent = this.category;
     this.addQuickViewListeners(list);
