@@ -16,10 +16,10 @@ export default class ExternalServices {
     const response = await fetch(baseURL + `products/search/${category}`);
     const data = await convertToJson(response);
     if (filTerm == 'price') {
-      data.Result.sort((a,b) => b.FinalPrice - a.FinalPrice);
+      data.Result.sort((a,b) => a.FinalPrice - b.FinalPrice);
     }
     if (filTerm == 'name') {
-      data.Result.sort((a,b) => b.Name - a.Name);
+      data.Result.sort((a,b) => a.Name.localeCompare(b.Name));
     }
     return data.Result;
   }
