@@ -96,7 +96,7 @@ export default class CheckoutProcess {
       taxEl.innerText = `$${this.tax.toFixed(2)}`;
       shippingEl.innerText = `$${this.shipping.toFixed(2)}`;
       totalEl.innerText = `$${this.orderTotal.toFixed(2)}`;
-  }
+    }
   }
 
   // NEW METHOD: Prepares and sends the order
