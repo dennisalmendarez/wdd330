@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cultural Explorer</title>
+
+  <!-- 🌍 External Libraries -->
+  <!-- Leaflet CSS & JS (1st API: OpenStreetMap) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    defer
+  ></script>
+
+  <!-- Your main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- JavaScript Files -->
+  <script defer src="scripts/map.js"></script>
+  <script defer src="scripts/themeToggle.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Cultural Explorer</h1>
+    <button id="themeToggle">Toggle Theme</button>
+  </header>
+
+  <main>
+    <!-- 🔍 Search Section -->
+    <section id="searchSection">
+      <input
+        type="text"
+        id="countrySearch"
+        placeholder="Search for a country..."
+      />
+    </section>
+
+    <!-- 🗺️ Map Section -->
+    <section id="mapSection">
+      <h2>Explore the Map</h2>
+      <div id="mapContainer">[Map will go here]</div>
+    </section>
+
+    <!-- 🎎 Featured Cultures Section -->
+    <section id="featuredCultures">
+      <h2>Featured Cultures</h2>
+      <div id="cultureCards">[Featured countries will load here]</div>
+    </section>
+  </main>
+</body>
+</html>

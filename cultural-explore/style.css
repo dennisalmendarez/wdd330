@@ -1,0 +1,123 @@
+/* Base styles */
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+:root {
+  --bg: #fdf6e3;
+  --text: #333;
+  --accent: #c5a880;
+  --card-bg: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+  --bg: #1e1e1e;
+  --text: #fdf6e3;
+  --card-bg: #2c2c2c;
+  --card-shadow: rgba(255, 255, 255, 0.1);
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--accent);
+  color: #fff;
+}
+
+header h1 {
+  margin: 0;
+  font-family: 'Lora', serif;
+}
+
+/* Sections */
+section {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--card-shadow);
+}
+
+/* Map */
+#mapContainer {
+  height: 400px;
+  background-color: #eee;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Search bar */
+#countrySearch {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin: 1rem auto;
+  display: block;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Buttons */
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a67c52;
+}
+
+/* Culture images */
+.culture-img {
+  width: 200px;
+  margin: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--card-shadow);
+}
+
+/* Videos */
+video {
+  margin: 0.5rem;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+/* Lists */
+ul {
+  padding-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #countrySearch {
+    width: 90%;
+  }
+
+  .culture-img {
+    width: 100%;
+  }
+}
