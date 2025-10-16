@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep Outside | Products</title>
     <link rel="stylesheet" href="../css/style.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="../js/product-listing.js" type="module"></script>
   </head>
 
@@ -12,9 +13,20 @@
     <header class="divider" id="main-header"></header>
     <main class="divider">
       <section class="products">
-        <h2>
-          Top Products: <span class="title highlight" id="title_cap"></span>
-        </h2>
+        <div class="top-bar">
+          <h2>
+            Top Products: <span class="title highlight" id="title_cap"></span>
+          </h2>
+          <div class="sort-menu">
+          <span class="material-icons" id="sorter">
+            sort
+          </span>
+          <div class="sort-options" id="sort-options">
+            <button class="sort price">By Price</button>
+            <button class="sort alphabet">By Alphabet</button>
+          </div>
+  </div>
+        </div>
         <ul class="product-list" id="product_List"></ul>
       </section>
 
